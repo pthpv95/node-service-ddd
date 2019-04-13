@@ -10,9 +10,11 @@ const loggerMiddleware = require('./interfaces/http/logging/loggerMiddleware');
 const errorHandler = require('./interfaces/http/errors/errorHandler');
 const devErrorHandler = require('./interfaces/http/errors/devErrorHandler');
 const swaggerMiddleware = require('./interfaces/http/swagger/swaggerMiddleware');
-
+const UserSerializer = require('./interfaces/http/user/UserSerializer');
 const logger = require('./infra/logging/logger');
-const { database } = require('./infra/database/models');
+const { database, User: UserModel } = require('./infra/database/models');
+const SequelizeUsersRepository = require('./infra/repositiories/user/')
+const {GetAllUsers} = require('./app/user')
 
 const container = createContainer();
 
@@ -42,28 +44,28 @@ container
   });
 
 // Repositories
-// container.register({
-//   usersRepository: asClass(SequelizeUsersRepository).singleton()
-// });
+container.register({
+  userRepository: asClass(SequelizeUsersRepository).singleton()
+});
 
 // Database
 container.register({
-  database: asValue(database)
-  //asValue(UserModel)
+  database: asValue(database),
+  UserModel: asValue(UserModel)
 });
 
 // Operations
-// container.register({
+container.register({
 //   createUser: asClass(CreateUser),
-//   getAllUsers: asClass(GetAllUsers),
+  getAllUsers: asClass(GetAllUsers),
 //   getUser: asClass(GetUser),
 //   updateUser: asClass(UpdateUser),
 //   deleteUser: asClass(DeleteUser)
-// });
+});
 
 // Serializers
 container.register({
-  // userSerializer: asValue(UserSerializer)
+  userSerializer: asValue(UserSerializer)
 });
 
 module.exports = container;

@@ -38,6 +38,7 @@ module.exports = ({ config, containerMiddleware, loggerMiddleware, errorHandler,
    * The `controllerPath` is relative to the `interfaces/http` folder
    */
 
+  apiRouter.use('/users', controller('user/UsersController'));
   router.use('/api', apiRouter);
 
   router.use(errorHandler);
