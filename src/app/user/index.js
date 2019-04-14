@@ -1,3 +1,4 @@
 module.exports = {
-  GetAllUsers: require("./getAllUsers")
+  GetAllUsers: require("./GetAllUsers"),
+  GetUser: require('./GetUser')
 }

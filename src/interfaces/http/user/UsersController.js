@@ -7,21 +7,28 @@ const UserController = {
     const router = Router()
 
     router.use(inject("userSerializer"))
-    router.get("/", inject("getAllUsers"), this.index)
-
+    router.get('/', inject('getAllUsers'), this.index)
+    router.get('/:id', inject('getUser'), this.get)
     return router
   },
 
   index(req, res, next) {
     const { getAllUsers } = req
-    
-    // const { SUCESS, ERROR } = getAllUsers.outputs
     getAllUsers.execute().then((result) => {
-      console.log('result', result)
       res.send(result)
     }).catch((err) => {
-      res.send(err).status(Status[400])
+      res.send(err)
     });
+  },
+
+  get(req, res, next){
+    const id = req.params.id
+    const { getUser } = req
+    getUser.execute(id).then((result)=>{
+      res.send(result)
+    }).catch((err)=>{
+      res.send(Status[404])
+    })
   }
 }
 

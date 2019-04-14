@@ -14,7 +14,7 @@ const UserSerializer = require('./interfaces/http/user/UserSerializer');
 const logger = require('./infra/logging/logger');
 const { database, User: UserModel } = require('./infra/database/models');
 const SequelizeUsersRepository = require('./infra/repositiories/user/')
-const {GetAllUsers} = require('./app/user')
+const { GetAllUsers, GetUser } = require('./app/user')
 
 const container = createContainer();
 
@@ -58,7 +58,7 @@ container.register({
 container.register({
 //   createUser: asClass(CreateUser),
   getAllUsers: asClass(GetAllUsers),
-//   getUser: asClass(GetUser),
+  getUser: asClass(GetUser),
 //   updateUser: asClass(UpdateUser),
 //   deleteUser: asClass(DeleteUser)
 });
