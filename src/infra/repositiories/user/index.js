@@ -11,17 +11,20 @@ class SequelizeUsersRepository {
     return users.map(UserMapper.toEntity);
   }
 
-  async getById(id){
-    const users = await this.UserModel.findAll({
-      where:{
-        id
-      }
-    })
-    if(users.length === 0){
+  async getById(...args){
+    const user = await this.UserModel.findOne(...args)
+    if(!user){
       throw new Error('USER_NOT_FOUND')
     }else{
-      return UserMapper.toEntity(users[0])
+      return UserMapper.toEntity(user)
     }
+  }
+
+  async createUser(...args){
+    console.log(...args)
+    
+    // Do some validations
+    return await this.UserModel.create(...args)
   }
 }
 

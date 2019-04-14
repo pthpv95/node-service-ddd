@@ -3,7 +3,6 @@ const User = require("../../../domain/user/User")
 const SequelizeUserMapper = {
   toEntity({ dataValues }) {
     const { id, name } = dataValues
-
     return new User({ id, name })
   },
 

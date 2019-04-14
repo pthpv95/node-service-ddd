@@ -9,6 +9,7 @@ const UserController = {
     router.use(inject("userSerializer"))
     router.get('/', inject('getAllUsers'), this.index)
     router.get('/:id', inject('getUser'), this.get)
+    router.post('/', inject('createUser'), this.post)
     return router
   },
 
@@ -28,6 +29,20 @@ const UserController = {
       res.send(result)
     }).catch((err)=>{
       res.send(Status[404])
+    })
+  },
+
+  post(req, res, next){
+    const payload = {
+      name: req.body.name,
+      password: req.body.password
+    }
+    const { createUser } = req
+
+    createUser.execute(payload).then((user)=>{
+      res.send(user)
+    }).catch((err)=>{
+      res.send(Status[400])
     })
   }
 }

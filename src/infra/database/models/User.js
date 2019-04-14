@@ -1,5 +1,4 @@
 "use strict"
-
 module.exports = function(sequelize, DataTypes) {
   const user = sequelize.define(
     "users",
@@ -10,17 +9,21 @@ module.exports = function(sequelize, DataTypes) {
         primaryKey: true,
         allowNull: false
       },
-      name: { type: DataTypes.STRING }
+      name: { 
+        type: DataTypes.STRING 
+      },
+      password: {
+        type: DataTypes.STRING 
+      }
     },
     {
       classMethods: {
         associate(models) {
-          // user.hasMany(models.message)
+          user.hasMany(models.Messages)
         }
       }
     }
   )
-
 
   return user
 }
