@@ -2,17 +2,17 @@ const UserMapper = require("./mapper")
 
 class SequelizeUsersRepository {
   constructor({ UserModel }) {
-    this.UserModel = UserModel
+    this.userModel = UserModel
   }
 
   async getAll(...args) {
-    const users = await this.UserModel.findAll(...args);
+    const users = await this.userModel.findAll(...args);
 
     return users.map(UserMapper.toEntity);
   }
 
   async getById(...args){
-    const user = await this.UserModel.findOne(...args)
+    const user = await this.userModel.findOne(...args)
     if(!user){
       throw new Error('USER_NOT_FOUND')
     }else{
@@ -24,7 +24,7 @@ class SequelizeUsersRepository {
     console.log(...args)
     
     // Do some validations
-    return await this.UserModel.create(...args)
+    return await this.userModel.create(...args)
   }
 }
 

@@ -10,6 +10,8 @@ const UserController = {
     router.get('/', inject('getAllUsers'), this.index)
     router.get('/:id', inject('getUser'), this.get)
     router.post('/', inject('createUser'), this.post)
+
+    router.post('/message', inject('createMessage'), this.createMessage)
     return router
   },
 
@@ -43,6 +45,19 @@ const UserController = {
       res.send(user)
     }).catch((err)=>{
       res.send(Status[400])
+    })
+  },
+
+  createMessage(req, res, next){
+    const payload = {
+      userId: req.body.userId,
+      text: req.body.text
+    }
+
+    const { createMessage } = req
+
+    createMessage.execute(payload).then((message)=>{
+      res.send(message)
     })
   }
 }

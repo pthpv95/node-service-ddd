@@ -1,22 +1,24 @@
-const { createContainer, asClass, asFunction, asValue } = require('awilix');
-const { scopePerRequest } = require('awilix-express');
+const { createContainer, asClass, asFunction, asValue } = require("awilix")
+const { scopePerRequest } = require("awilix-express")
 
-const config = require('../config');
-const Application = require('./app/Application');
+const config = require("../config")
+const Application = require("./app/Application")
 
-const Server = require('./interfaces/http/Server');
-const router = require('./interfaces/http/router');
-const loggerMiddleware = require('./interfaces/http/logging/loggerMiddleware');
-const errorHandler = require('./interfaces/http/errors/errorHandler');
-const devErrorHandler = require('./interfaces/http/errors/devErrorHandler');
-const swaggerMiddleware = require('./interfaces/http/swagger/swaggerMiddleware');
-const UserSerializer = require('./interfaces/http/user/UserSerializer');
-const logger = require('./infra/logging/logger');
-const { database, User: UserModel } = require('./infra/database/models');
-const SequelizeUsersRepository = require('./infra/repositiories/user/')
-const { GetAllUsers, GetUser, CreateUser } = require('./app/user')
+const Server = require("./interfaces/http/Server")
+const router = require("./interfaces/http/router")
+const loggerMiddleware = require("./interfaces/http/logging/loggerMiddleware")
+const errorHandler = require("./interfaces/http/errors/errorHandler")
+const devErrorHandler = require("./interfaces/http/errors/devErrorHandler")
+const swaggerMiddleware = require("./interfaces/http/swagger/swaggerMiddleware")
+const UserSerializer = require("./interfaces/http/user/UserSerializer")
+const logger = require("./infra/logging/logger")
+const { database, User: UserModel, Messages: MessageModel } = require("./infra/database/models")
+const SequelizeUsersRepository = require("./infra/repositiories/user/")
+const MessagesRepository = require("./infra/repositiories/message")
+const { GetAllUsers, GetUser, CreateUser } = require("./app/user")
+const { CreateMessage } = require("./app/message")
 
-const container = createContainer();
+const container = createContainer()
 
 // System
 container
@@ -30,7 +32,7 @@ container
   })
   .register({
     config: asValue(config)
-  });
+  })
 
 // Middlewares
 container
@@ -41,31 +43,34 @@ container
     containerMiddleware: asValue(scopePerRequest(container)),
     errorHandler: asValue(config.production ? errorHandler : devErrorHandler),
     swaggerMiddleware: asValue([swaggerMiddleware])
-  });
+  })
 
 // Repositories
 container.register({
-  userRepository: asClass(SequelizeUsersRepository).singleton()
-});
+  userRepository: asClass(SequelizeUsersRepository).singleton(),
+  messageRepository: asClass(MessagesRepository).singleton()
+})
 
 // Database
 container.register({
   database: asValue(database),
-  UserModel: asValue(UserModel)
-});
+  UserModel: asValue(UserModel),
+  MessageModel: asValue(MessageModel)
+})
 
 // Operations
 container.register({
   createUser: asClass(CreateUser),
   getAllUsers: asClass(GetAllUsers),
   getUser: asClass(GetUser),
-//   updateUser: asClass(UpdateUser),
-//   deleteUser: asClass(DeleteUser)
-});
+  //   updateUser: asClass(UpdateUser),
+  //   deleteUser: asClass(DeleteUser),
+  createMessage: asClass(CreateMessage)
+})
 
 // Serializers
 container.register({
   userSerializer: asValue(UserSerializer)
-});
+})
 
-module.exports = container;
+module.exports = container
