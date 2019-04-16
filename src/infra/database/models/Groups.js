@@ -1,6 +1,4 @@
 "use strict"
-// const User = require('./User')
-
 module.exports = function(sequelize, DataTypes) {
   const Group = sequelize.define(
     "groups",
@@ -11,18 +9,23 @@ module.exports = function(sequelize, DataTypes) {
         primaryKey: true,
         allowNull: false
       },
-      name: { type: DataTypes.STRING }
+      name: {
+        type: DataTypes.STRING
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        defaultValue: new Date()
+      },
+      updatedAt: {
+        type: DataTypes.DATE
+      }
     },
     {
       classMethods: {
-        associate() {
-          // associations can be defined here
-        //   Group.hasMany(User)
-        }
+        associate() {}
       }
     }
   )
-
 
   return Group
 }

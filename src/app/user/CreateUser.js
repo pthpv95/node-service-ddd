@@ -10,7 +10,6 @@ class CreateUser {
 			const hashedPassword = hashPassword(payload.password)
 			const newUser = await this.userRepository.createUser({
 				name: payload.name,
-				createdAt: new Date(),
 				password: hashedPassword
 			})
 			return newUser.id

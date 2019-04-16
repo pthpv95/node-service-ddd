@@ -16,7 +16,8 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.STRING 
       },
       createdAt: {
-        type: DataTypes.DATE 
+        type: DataTypes.DATE,
+        defaultValue: new Date() 
       },
       updatedAt: {
         type: DataTypes.DATE 

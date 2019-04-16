@@ -7,8 +7,7 @@ class CreateMessage {
     try {
       const newMessage = await this.messageRepository.create({
         text,
-        userId,
-        createdAt: new Date()
+        userId
       })
       return newMessage.id
       
