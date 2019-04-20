@@ -12,11 +12,13 @@ const devErrorHandler = require("./interfaces/http/errors/devErrorHandler")
 const swaggerMiddleware = require("./interfaces/http/swagger/swaggerMiddleware")
 const UserSerializer = require("./interfaces/http/user/UserSerializer")
 const logger = require("./infra/logging/logger")
-const { database, User: UserModel, Messages: MessageModel } = require("./infra/database/models")
+const { database, User: UserModel, Messages: MessageModel, Groups: GroupsModel, GroupUser: GroupUserModel } = require("./infra/database/models")
 const SequelizeUsersRepository = require("./infra/repositiories/user/")
 const MessagesRepository = require("./infra/repositiories/message")
+const GroupsRepository = require("./infra/repositiories/group")
 const { GetAllUsers, GetUser, CreateUser } = require("./app/user")
 const { CreateMessage } = require("./app/message")
+const { CreateGroup } = require('./app/group')
 
 const container = createContainer()
 
@@ -48,14 +50,17 @@ container
 // Repositories
 container.register({
   userRepository: asClass(SequelizeUsersRepository).singleton(),
-  messageRepository: asClass(MessagesRepository).singleton()
+  messageRepository: asClass(MessagesRepository).singleton(),
+  groupsRepository: asClass(GroupsRepository).singleton()
 })
 
 // Database
 container.register({
   database: asValue(database),
   UserModel: asValue(UserModel),
-  MessageModel: asValue(MessageModel)
+  MessageModel: asValue(MessageModel),
+  GroupModel: asValue(GroupsModel),
+  GroupUserModel: asValue(GroupUserModel)
 })
 
 // Operations
@@ -65,7 +70,8 @@ container.register({
   getUser: asClass(GetUser),
   //   updateUser: asClass(UpdateUser),
   //   deleteUser: asClass(DeleteUser),
-  createMessage: asClass(CreateMessage)
+  createMessage: asClass(CreateMessage),
+  createGroup: asClass(CreateGroup)
 })
 
 // Serializers

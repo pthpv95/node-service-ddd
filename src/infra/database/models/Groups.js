@@ -1,6 +1,6 @@
 "use strict"
 module.exports = function(sequelize, DataTypes) {
-  const Group = sequelize.define(
+  const group = sequelize.define(
     "groups",
     {
       id: {
@@ -22,10 +22,12 @@ module.exports = function(sequelize, DataTypes) {
     },
     {
       classMethods: {
-        associate() {}
+        associate: (models) => {
+          group.hasMany(models.User)
+        }
       }
     }
   )
 
-  return Group
+  return group
 }

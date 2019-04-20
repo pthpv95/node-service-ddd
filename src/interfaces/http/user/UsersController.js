@@ -11,7 +11,9 @@ const UserController = {
     router.get('/:id', inject('getUser'), this.get)
     router.post('/', inject('createUser'), this.post)
 
+    // testing
     router.post('/message', inject('createMessage'), this.createMessage)
+    router.post('/group', inject('createGroup'), this.createGroup)
     return router
   },
 
@@ -58,6 +60,17 @@ const UserController = {
 
     createMessage.execute(payload).then((message)=>{
       res.send(message)
+    })
+  },
+
+  createGroup(req, res, next){
+    const payload = {
+      userId: req.body.userId,
+      name: req.body.name
+    }
+    const { createGroup } = req
+    createGroup.execute(payload).then((id)=>{
+      res.send(id)
     })
   }
 }
