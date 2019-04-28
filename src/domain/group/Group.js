@@ -1,13 +1,14 @@
 const { attributes } = require("structure")
 
-const User = attributes({
+const Group = attributes({
   id: String,
   name: {
     type: String,
     require: true
-  }
-})(class User{
+  },
+  members: []
+})(class Group{
   
 })
 
-module.exports = User
+module.exports = Group

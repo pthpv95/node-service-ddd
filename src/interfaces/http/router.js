@@ -39,6 +39,7 @@ module.exports = ({ config, containerMiddleware, loggerMiddleware, errorHandler,
    */
 
   apiRouter.use('/users', controller('user/UsersController'));
+  apiRouter.use('/groups', controller('group/GroupsController'));
   router.use('/api', apiRouter);
 
   router.use(errorHandler);

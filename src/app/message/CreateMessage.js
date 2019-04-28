@@ -3,11 +3,12 @@ class CreateMessage {
     this.messageRepository = messageRepository
   }
 
-  async execute({ text, userId }){
+  async execute({ text, userId, groupId }){
     try {
       const newMessage = await this.messageRepository.create({
         text,
-        userId
+        userId,
+        groupId
       })
       return newMessage.id
       

@@ -18,7 +18,7 @@ const MessagesRepository = require("./infra/repositiories/message")
 const GroupsRepository = require("./infra/repositiories/group")
 const { GetAllUsers, GetUser, CreateUser } = require("./app/user")
 const { CreateMessage } = require("./app/message")
-const { CreateGroup } = require('./app/group')
+const { CreateGroup, GetGroup, GetUserGroups } = require('./app/group')
 
 const container = createContainer()
 
@@ -71,7 +71,9 @@ container.register({
   //   updateUser: asClass(UpdateUser),
   //   deleteUser: asClass(DeleteUser),
   createMessage: asClass(CreateMessage),
-  createGroup: asClass(CreateGroup)
+  createGroup: asClass(CreateGroup),
+  getGroup: asClass(GetGroup),
+  getUserGroups: asClass(GetUserGroups)
 })
 
 // Serializers

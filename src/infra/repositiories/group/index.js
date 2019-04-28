@@ -1,7 +1,11 @@
+const SequelizeGroupMapper = require("./mapper")
+
 class GroupRepository {
-  constructor({ GroupModel, GroupUserModel }) {
+  constructor({ GroupModel, GroupUserModel, UserModel, MessageModel }) {
     this.groupModel = GroupModel
     this.groupUserModel = GroupUserModel
+    this.userModel = UserModel
+    this.messageModel = MessageModel
   }
 
   async create(userId, name) {
@@ -14,10 +18,37 @@ class GroupRepository {
       groupId: group.id
     })
 
-    return group.id
+    return group
   }
 
-  async getRoom(id){
+  async get(id) {
+    const messages = await this.messageModel.findAll({
+      attributes: ["id", "text", "createdAt"],
+      order: [["createdAt", "ASC"]],
+      where: {
+        groupId: id
+      },
+      include: [{ model: this.userModel, attributes: ["id", "name"] }]
+    })
+    return messages.map(SequelizeGroupMapper.toEntity)
+  }
+
+  async getGroupsByUser(userId) {
+    const groups = await this.userModel.findAll({
+      attributes: ["id", "name"],
+      where: {
+        id: userId
+      },
+      include: [
+        {
+          model: this.groupModel,
+          as: "groups",
+          attributes: ["id", "name"],
+          through: { attributes: [] }
+        }
+      ]
+    })
+    return groups.map(SequelizeGroupMapper.toEntity)
   }
 }
 

@@ -13,6 +13,9 @@ module.exports = function(sequelize, DataTypes) {
       text: {
         type: DataTypes.STRING
       },
+      groupId: {
+        type: DataTypes.STRING
+      },
       createdAt: {
         type: DataTypes.DATE,
         defaultValue: new Date()
