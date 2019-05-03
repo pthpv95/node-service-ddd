@@ -1,11 +1,11 @@
-class GetGroup {
+class GetGroupContent {
   constructor({ groupsRepository }) {
     this.groupsRepository = groupsRepository
   }
 
   async execute(id) {
     try {
-      const group = await this.groupsRepository.get(id)
+      const group = await this.groupsRepository.getGroupContent(id)
       return group
     } catch (error) {
       console.log("create group error", error)
@@ -13,4 +13,4 @@ class GetGroup {
   }
 }
 
-module.exports = GetGroup
+module.exports = GetGroupContent

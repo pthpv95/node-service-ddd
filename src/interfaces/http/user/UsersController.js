@@ -10,7 +10,9 @@ const UserController = {
     router.get("/", inject("getAllUsers"), this.index)
     router.get("/:id", inject("getUser"), this.get)
     router.post("/", inject("createUser"), this.post)
-
+    router.post("/join-group", inject("joinGroup"), this.makeJoinGroup)
+    router.get("/:id/group", inject("getUserGroups"), this.getGroupsByUser)
+    
     // testing
     router.post("/message", inject("createMessage"), this.createMessage)
     router.post("/group", inject("createGroup"), this.createGroup)
@@ -82,6 +84,26 @@ const UserController = {
     const { createGroup } = req
     createGroup.execute(payload).then(id => {
       res.send({ id })
+    })
+  },
+
+  makeJoinGroup(req, res, next) {
+    const { joinGroup } = req
+
+    const payload = {
+      userId: req.body.userId,
+      groupId: req.body.groupId
+    }
+    joinGroup.execute(payload).then(result => {
+      res.send(result)
+    })
+    // res.send(Status[200])
+  },
+
+  getGroupsByUser(req, res, next) {
+    const { getUserGroups } = req
+    getUserGroups.execute(req.params.id).then(result => {
+      res.send(result)
     })
   }
 }

@@ -21,7 +21,7 @@ class GroupRepository {
     return group
   }
 
-  async get(id) {
+  async getGroupContent(id) {
     const messages = await this.messageModel.findAll({
       attributes: ["id", "text", "createdAt"],
       order: [["createdAt", "ASC"]],
@@ -48,6 +48,28 @@ class GroupRepository {
         }
       ]
     })
+    return groups.map(SequelizeGroupMapper.toEntity)
+  }
+
+  async getGroupIncludingUsers(id) {
+    const groups = await this.groupModel.findAll({
+      attributes: ["id", "name"],
+      where: { id },
+      include: [
+        {
+          model: this.userModel,
+          as: "users",
+          attributes: ["id", "name"],
+          through: { attributes: [] }
+        }
+      ]
+    })
+
+    return groups.map(SequelizeGroupMapper.toEntity)
+  }
+
+  async getAll() {
+    const groups = await this.groupModel.findAll({ attributes: ["id", "name"] })
     return groups.map(SequelizeGroupMapper.toEntity)
   }
 }

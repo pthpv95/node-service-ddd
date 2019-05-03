@@ -1,11 +1,16 @@
-class GetUser {
+class CheckValidUser {
   constructor({ userRepository }) {
     this.userRepository = userRepository
   }
 
   async execute(id) {
     try {
-      const user = await this.userRepository.getById(id)
+      const user = await this.userRepository.getById({
+        attributes: ["id", "name"],
+        where: {
+          id
+        }
+      })
 
       return user
     } catch (error) {
@@ -15,4 +20,4 @@ class GetUser {
   }
 }
 
-module.exports = GetUser
+module.exports = CheckValidUser

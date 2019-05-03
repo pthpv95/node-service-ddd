@@ -1,6 +1,8 @@
 module.exports = {
   CreateGroup: require('./CreateGroup'),
-  GetGroup: require('./GetGroup'),
-  GetUserGroups: require('./GetUserGroups')
+  GetGroupContent: require('./GetGroupContent'),
+  GetUserGroups: require('./GetUserGroups'),
+  GetGroupWithUsers: require('./GetGroupWithUsers'),
+  GetAllGroups: require('./GetAllGroups')
   
 }

@@ -16,9 +16,9 @@ const { database, User: UserModel, Messages: MessageModel, Groups: GroupsModel, 
 const SequelizeUsersRepository = require("./infra/repositiories/user/")
 const MessagesRepository = require("./infra/repositiories/message")
 const GroupsRepository = require("./infra/repositiories/group")
-const { GetAllUsers, GetUser, CreateUser } = require("./app/user")
+const { GetAllUsers, GetUser, CreateUser, JoinGroup } = require("./app/user")
 const { CreateMessage } = require("./app/message")
-const { CreateGroup, GetGroup, GetUserGroups } = require('./app/group')
+const { CreateGroup, GetGroupContent, GetUserGroups, GetGroupWithUsers, GetAllGroups } = require('./app/group')
 
 const container = createContainer()
 
@@ -68,12 +68,14 @@ container.register({
   createUser: asClass(CreateUser),
   getAllUsers: asClass(GetAllUsers),
   getUser: asClass(GetUser),
-  //   updateUser: asClass(UpdateUser),
+  joinGroup: asClass(JoinGroup),
   //   deleteUser: asClass(DeleteUser),
   createMessage: asClass(CreateMessage),
   createGroup: asClass(CreateGroup),
-  getGroup: asClass(GetGroup),
-  getUserGroups: asClass(GetUserGroups)
+  getGroupContent: asClass(GetGroupContent),
+  getUserGroups: asClass(GetUserGroups),
+  getGroupWithUsers: asClass(GetGroupWithUsers),
+  getAllGroups: asClass(GetAllGroups)
 })
 
 // Serializers

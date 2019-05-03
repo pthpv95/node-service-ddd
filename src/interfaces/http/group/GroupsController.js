@@ -5,22 +5,32 @@ const Status = require("http-status")
 const UserController = {
   get router() {
     const router = Router()
-    router.get("/:id", inject("getGroup"), this.getGroup)
-    router.get('/by-user/:id', inject('getUserGroups'), this.getGroupsByUser)
+    router.get("/:id", inject("getGroupContent"), this.getGroupContent)
+    router.get("/:id/users", inject("getGroupWithUsers"), this.getGroupWithUsers)
+    router.get('/', inject('getAllGroups'), this.getAll)
+    
     return router
   },
 
-  getGroup(req, res, next) {
-    const { getGroup } = req
+  getGroupContent(req, res, next) {
+    const { getGroupContent } = req
     const id = req.params.id
-    getGroup.execute(id).then((result) => {
+    getGroupContent.execute(id).then(result => {
       res.send(result)
     })
   },
 
-  getGroupsByUser(req, res, next){
-    const { getUserGroups } = req
-    getUserGroups.execute(req.params.id).then((result)=>{
+  getGroupWithUsers(req, res, next) {
+    const { getGroupWithUsers } = req
+    getGroupWithUsers.execute(req.params.id).then(result => {
+      res.send(result)
+    })
+  },
+  
+  getAll(req,res, next){
+    const { getAllGroups } = req
+
+    getAllGroups.execute().then((result)=>{
       res.send(result)
     })
   }
